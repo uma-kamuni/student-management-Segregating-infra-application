@@ -90,18 +90,16 @@ jobs:
       - name: Configure EKS cluster
         run: aws eks update-kubeconfig --name my-eks-cluster --region eu-north-1
 
-      - name: Deployment on Kubernetes
+      - name: Configure EKS cluster
+        run: aws eks update-kubeconfig --name my-eks-cluster --region us-west-2
+
+      - name: Deployment on kubernetes
         run: |
-          echo "Deleting existing application resources..."
-          kubectl delete -f k8s/ --ignore-not-found=true
-
-          echo "Creating updated application resources..."
           kubectl apply -f k8s/
-
-          echo "Checking pods..."
           kubectl get pods
-
           sleep 30
+          kubectl get pods 
+          kubectl get svc -o wide
 
           kubectl get pods
           kubectl get svc -o wide
