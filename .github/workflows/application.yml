@@ -82,26 +82,26 @@ jobs:
           docker tag student:latest 580222437000.dkr.ecr.eu-north-1.amazonaws.com/student:latest
           docker push 580222437000.dkr.ecr.eu-north-1.amazonaws.com/student:latest
 
-      # - name: Install Kubectl
-      #   uses: azure/setup-kubectl@v5
-      #   with:
-      #     version: latest
+      - name: Install Kubectl
+        uses: azure/setup-kubectl@v5
+        with:
+          version: latest
 
-      # - name: Configure EKS cluster
-      #   run: aws eks update-kubeconfig --name my-eks-cluster --region eu-north-1
+      - name: Configure EKS cluster
+        run: aws eks update-kubeconfig --name my-eks-cluster --region eu-north-1
 
-      # - name: Deployment on Kubernetes
-      #   run: |
-      #     echo "Deleting existing application resources..."
-      #     kubectl delete -f k8s/ --ignore-not-found=true
+      - name: Deployment on Kubernetes
+        run: |
+          echo "Deleting existing application resources..."
+          kubectl delete -f k8s/ --ignore-not-found=true
 
-      #     echo "Creating updated application resources..."
-      #     kubectl apply -f k8s/
+          echo "Creating updated application resources..."
+          kubectl apply -f k8s/
 
-      #     echo "Checking pods..."
-      #     kubectl get pods
+          echo "Checking pods..."
+          kubectl get pods
 
-      #     sleep 30
+          sleep 30
 
-      #     kubectl get pods
-      #     kubectl get svc -o wide
+          kubectl get pods
+          kubectl get svc -o wide
