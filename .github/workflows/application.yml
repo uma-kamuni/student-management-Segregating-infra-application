@@ -54,3 +54,30 @@ jobs:
             | jq -r '.projectStatus.status')
           echo "Quality Gate: $STATUS"
           [ "$STATUS" = "OK" ] || exit 1
+
+      - name: Docker Build
+        run: |
+          docker build -t student .
+          docker images
+
+      - name: Trivy Install 
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget 
+          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | \
+            gpg --dearmor | \
+            sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
+          echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | \
+            sudo tee /etc/apt/sources.list.d/trivy.list
+          sudo apt-get update
+          sudo apt-get install -y trivy
+
+
+      - name: Scann image using Trivy
+        run: trivy image --scanners vuln --severity HIGH,CRITICAL --exit-code 0 student:latest
+
+      - name: Push to ECR
+        run: |
+          aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 580222437000.dkr.ecr.eu-north-1.amazonaws.com
+          docker tag student:latest 580222437000.dkr.ecr.eu-north-1.amazonaws.com/student:latest
+          docker push 580222437000.dkr.ecr.eu-north-1.amazonaws.com/student:latest
