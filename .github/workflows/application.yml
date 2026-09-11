@@ -1,10 +1,12 @@
 name: CI/CD using Github Actions
 
-on:
-  workflow_run:
-    workflows: ["Infrastructure Pipeline"]
-    types:
-      - completed
+on: 
+  push: 
+    branches:
+      - master 
+    paths-ignore:
+      - '*.tf'
+      - '.github/workflows/infrastructure.yml'
 
   workflow_dispatch:
 
