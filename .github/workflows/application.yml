@@ -1,1 +1,19 @@
+name: CI/CD using Github Actions
 
+on: 
+  push: 
+    branches:
+      - master 
+    paths-ignore:
+      - '*.tf'
+      - '.github/workflows/infrastructure.yml'
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5
