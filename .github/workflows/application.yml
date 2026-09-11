@@ -37,3 +37,12 @@ jobs:
 
       - name: Push Artifacts to S3
         run: aws s3 cp target/*.war s3://uma.online
+
+      - name: SonarQube Analysis 
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SQ_HOST_URL }}
+        run: |
+          mvn sonar:sonar \
+            -Dsonar.token="$SONAR_TOKEN" \
+            -Dsonar.host.url="$SQ_HOST_URL"
