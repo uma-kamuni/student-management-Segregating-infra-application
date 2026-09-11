@@ -31,8 +31,8 @@ jobs:
       - name: Configure aws credentials
         uses: aws-actions/configure-aws-credentials@v5
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ secrets.AK }}
+          aws-secret-access-key: ${{ secrets.SAK }}
           aws-region: eu-north-1
 
       - name: Push Artifacts to S3
@@ -41,11 +41,11 @@ jobs:
       - name: SonarQube Analysis 
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_HOST_URL: ${{ secrets.SQ_HOST_URL }}
         run: |
           mvn sonar:sonar \
             -Dsonar.token="$SONAR_TOKEN" \
-            -Dsonar.host.url="$SONAR_HOST_URL"
+            -Dsonar.host.url="$SQ_HOST_URL"
 
       # - name: SonarQube Quality Gates
       #   run: |
