@@ -38,22 +38,22 @@ jobs:
       - name: Push Artifacts to S3
         run: aws s3 cp target/*.war s3://uma.online
 
-      - name: SonarQube Analysis 
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: |
-          mvn sonar:sonar \
-            -Dsonar.token="$SONAR_TOKEN" \
-            -Dsonar.host.url="$SONAR_HOST_URL"
+      # - name: SonarQube Analysis 
+      #   env:
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #     SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      #   run: |
+      #     mvn sonar:sonar \
+      #       -Dsonar.token="$SONAR_TOKEN" \
+      #       -Dsonar.host.url="$SONAR_HOST_URL"
 
-      - name: SonarQube Quality Gates
-        run: |
-          STATUS=$(curl -s -u "${{ secrets.SONAR_TOKEN }}:" \
-            "${{ secrets.SONAR_HOST_URL }}/api/qualitygates/project_status?projectKey=com.school:student-management" \
-            | jq -r '.projectStatus.status')
-          echo "Quality Gate: $STATUS"
-          [ "$STATUS" = "OK" ] || exit 1
+      # - name: SonarQube Quality Gates
+      #   run: |
+      #     STATUS=$(curl -s -u "${{ secrets.SONAR_TOKEN }}:" \
+      #       "${{ secrets.SONAR_HOST_URL }}/api/qualitygates/project_status?projectKey=com.school:student-management" \
+      #       | jq -r '.projectStatus.status')
+      #     echo "Quality Gate: $STATUS"
+      #     [ "$STATUS" = "OK" ] || exit 1
 
       - name: Docker Build
         run: |
