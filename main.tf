@@ -11,15 +11,15 @@ terraform {
   }
 
   backend "s3" {
-    bucket       = "mayurcbz.space"
+    bucket       = "uma.online"
     key          = "student-management/eks/terraform.tfstate"
-    region       = "us-west-2"
+    region       = "eu-north-1"
     use_lockfile = true
   }
 }
 
 provider "aws" {
-  region = "us-west-2"
+  region = "eu-north-1"
 }
 
 # Fetch default VPC
