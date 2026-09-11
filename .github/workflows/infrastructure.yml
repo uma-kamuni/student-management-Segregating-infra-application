@@ -10,11 +10,6 @@ on:
 
   workflow_dispatch:
 
-# Prevent multiple Terraform runs from using the same state at the same time
-concurrency:
-  group: terraform-infrastructure
-  cancel-in-progress: false
-
 jobs:
   terraform:
     runs-on: ubuntu-latest
