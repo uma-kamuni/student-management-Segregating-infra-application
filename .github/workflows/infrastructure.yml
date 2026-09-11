@@ -10,6 +10,11 @@ on:
 
   workflow_dispatch:
 
+# Prevent multiple Terraform runs from using the same state at the same time
+concurrency:
+  group: terraform-infrastructure
+  cancel-in-progress: false
+
 jobs:
   terraform:
     runs-on: ubuntu-latest
@@ -40,5 +45,5 @@ jobs:
       - name: Terraform Plan
         run: terraform plan
 
-      - name: Terraform Destroy
-        run: terraform destroy -auto-approve -lock=false
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -lock=false
